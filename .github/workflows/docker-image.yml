@@ -22,10 +22,3 @@ jobs:
     - name: Save Docker image
       run: docker save my-image-name:latest -o my-image.tar
 
-    # Step 4: Upload the .tar file as an artifact
-    - name: Upload Docker image as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-image
-        path: my-image.tar
-
