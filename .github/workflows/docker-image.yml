@@ -7,27 +7,28 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:latest
-      shell: bash
+      # Step 1: Checkout the code
+      - uses: actions/checkout@v4
 
-# Step 3: Save Docker image as a .tar file
-- name: Save Docker image
-  run: |
-    mkdir -p artifacts
-    docker save my-image-name:latest -o artifacts/my-image.tar
-  shell: bash
+      # Step 2: Build the Docker image
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:latest
+        shell: bash
 
-# Step 4: Upload the .tar file as an artifact
-- name: Upload Docker image as artifact
-  uses: actions/upload-artifact@v3
-  with:
-    name: my-image
-    path: artifacts/my-image.tar
+      # Step 3: Save Docker image as a .tar file
+      - name: Save Docker image
+        run: |
+          mkdir -p artifacts
+          docker save my-image-name:latest -o artifacts/my-image.tar
+        shell: bash
+
+      # Step 4: Upload the .tar file as an artifact
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-image
+          path: artifacts/my-image.tar
