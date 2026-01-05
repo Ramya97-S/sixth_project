@@ -20,21 +20,14 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       # Step 3: Log in to Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-      # Step 4: Build the Docker image
-      - name: Build Docker image
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+   #Step 4: Build and push Docker Hub
+      - name: Build and push Docker image
         run: |
-          docker build . --file Dockerfile --tag your-dockerhub-username/my-image:latest
-        shell: bash
-
-      # Step 5: Push the Docker image to Docker Hub
-      - name: Push Docker image
-        run: |
-          docker push your-dockerhub-username/my-image:latest
-        shell: bash
-
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-app:latest
